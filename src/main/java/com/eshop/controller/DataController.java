@@ -1,6 +1,7 @@
 package com.eshop.controller;
 
 import com.eshop.model.ShoppingItem;
+import com.eshop.service.ItemService;
 import com.eshop.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -23,6 +24,9 @@ public class DataController {
 	@Autowired
 	LoginService loginService;
 
+	@Autowired
+	ItemService itemService;
+
 	@GetMapping(path = "/hello")
 	public String greetingMessage(@RequestParam(required = false, name = "userName") String name) {
 		return "Hi! " + (StringUtils.hasText(name) ? StringUtils.capitalize(name) : "User");
@@ -43,21 +47,32 @@ public class DataController {
 
 	@PostMapping(path = "/insertItem")
 	public boolean insertItem(@RequestBody ShoppingItem item) {
-		return true;
+		return itemService.insertItemIndividually(item);
 	}
 
 	@PostMapping(path = "/insertItems")
 	public boolean insertItemBulk(@RequestBody List<ShoppingItem> itemList) {
-		return true;
+		return itemService.insertItems(itemList);
 	}
 
 	@GetMapping(path = "/getItem")
 	public ShoppingItem getItemById(@RequestParam(name="id") String itemId) {
-		return null;
+		return itemService.getMySearchItem(itemId);
 	}
 
 	@GetMapping(path = "/getAllItems")
 	public List<ShoppingItem> getAllItems() {
-		return null;
+		return itemService.getAllItems();
 	}
+
+	@GetMapping(path = "/removeItem")
+	public boolean removeItemById(@RequestParam(name = "id") String itemId) {
+		return itemService.removeItemViaId(itemId);
+	}
+
+	@PostMapping("/updateItem")
+	public boolean updateItem(@RequestBody ShoppingItem item) {
+		return itemService.updateItem(item);
+	}
+
 }

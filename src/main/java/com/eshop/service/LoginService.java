@@ -1,5 +1,6 @@
 package com.eshop.service;
 
+import com.eshop.model.ShoppingItem;
 import com.eshop.model.ShoppingRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
