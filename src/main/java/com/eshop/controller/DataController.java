@@ -21,58 +21,58 @@ import java.util.List;
 @RequestMapping("/e-shop")
 public class DataController {
 
-	@Autowired
-	LoginService loginService;
+    @Autowired
+    LoginService loginService;
 
-	@Autowired
-	ItemService itemService;
+    @Autowired
+    ItemService itemService;
 
-	@GetMapping(path = "/hello")
-	public String greetingMessage(@RequestParam(required = false, name = "userName") String name) {
-		return "Hi! " + (StringUtils.hasText(name) ? StringUtils.capitalize(name) : "User");
-	}
+    @GetMapping(path = "/hello")
+    public String greetingMessage(@RequestParam(required = false, name = "userName") String name) {
+        return "Hi! " + (StringUtils.hasText(name) ? StringUtils.capitalize(name) : "User");
+    }
 
-	@GetMapping(path = "/login")
-	public String userAuthentication(@RequestParam(required = false, name = "userName") String name,
-			@RequestParam(required = false, name = "pswd") String password) {
-		
-		return loginService.authenticateUser(name, password);
-	}
+    @GetMapping(path = "/login")
+    public String userAuthentication(@RequestParam(required = false, name = "userName") String name,
+                                     @RequestParam(required = false, name = "pswd") String password) {
 
-	@CrossOrigin(origins = "*")
-	@PostMapping(path = "/authenticate")
-	public String userAuthenticationViaPost(@RequestBody ShoppingRequest request) {
-		return loginService.authenticateUserViaPost(request);
-	}
+        return loginService.authenticateUser(name, password);
+    }
 
-	@PostMapping(path = "/insertItem")
-	public boolean insertItem(@RequestBody ShoppingItem item) {
-		return itemService.insertItemIndividually(item);
-	}
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/authenticate")
+    public String userAuthenticationViaPost(@RequestBody ShoppingRequest request) {
+        return loginService.authenticateUserViaPost(request);
+    }
 
-	@PostMapping(path = "/insertItems")
-	public boolean insertItemBulk(@RequestBody List<ShoppingItem> itemList) {
-		return itemService.insertItems(itemList);
-	}
+    @PostMapping(path = "/insertItem")
+    public boolean insertItem(@RequestBody ShoppingItem item) {
+        return itemService.insertItemIndividually(item);
+    }
 
-	@GetMapping(path = "/getItem")
-	public ShoppingItem getItemById(@RequestParam(name="id") String itemId) {
-		return itemService.getMySearchItem(itemId);
-	}
+    @PostMapping(path = "/insertItems")
+    public boolean insertItemBulk(@RequestBody List<ShoppingItem> itemList) {
+        return itemService.insertItems(itemList);
+    }
 
-	@GetMapping(path = "/getAllItems")
-	public List<ShoppingItem> getAllItems() {
-		return itemService.getAllItems();
-	}
+    @GetMapping(path = "/getItem")
+    public ShoppingItem getItemById(@RequestParam(name = "id") String itemId) {
+        return itemService.getMySearchItem(itemId);
+    }
 
-	@GetMapping(path = "/removeItem")
-	public boolean removeItemById(@RequestParam(name = "id") String itemId) {
-		return itemService.removeItemViaId(itemId);
-	}
+    @GetMapping(path = "/getAllItems")
+    public List<ShoppingItem> getAllItems() {
+        return itemService.getAllItems();
+    }
 
-	@PostMapping("/updateItem")
-	public boolean updateItem(@RequestBody ShoppingItem item) {
-		return itemService.updateItem(item);
-	}
+    @GetMapping(path = "/removeItem")
+    public boolean removeItemById(@RequestParam(name = "id") String itemId) {
+        return itemService.removeItemViaId(itemId);
+    }
+
+    @PostMapping("/updateItem")
+    public boolean updateItem(@RequestBody ShoppingItem item) {
+        return itemService.updateItem(item);
+    }
 
 }

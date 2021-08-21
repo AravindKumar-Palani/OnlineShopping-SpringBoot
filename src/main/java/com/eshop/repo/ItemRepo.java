@@ -1,20 +1,42 @@
 package com.eshop.repo;
 
 import com.eshop.model.ShoppingItem;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Transactional
 public class ItemRepo {
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     public List<ShoppingItem> itemList;
+
+    private Session getSession() {
+        Session session = sessionFactory.getCurrentSession();
+        if (session == null) {
+            session = sessionFactory.openSession();
+        }
+        return session;
+    }
 
     public boolean insertItem(ShoppingItem item) {
         if(null == itemList) {
             itemList = new ArrayList<ShoppingItem>();
         }
+
+        //saving to DB
+        Session session = getSession();
+        session.save(item);
+
+
        return itemList.add(item);
     }
 
@@ -22,6 +44,13 @@ public class ItemRepo {
         if (null == itemList) {
             itemList = new ArrayList<ShoppingItem>();
         }
+
+        //saving to DB
+        Session session = getSession();
+        for (ShoppingItem item : items) {
+            session.save(item);
+        }
+
         return itemList.addAll(items);
     }
 

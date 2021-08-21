@@ -2,15 +2,29 @@ package com.eshop.model;
 
 import org.springframework.stereotype.Component;
 
-@Component
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
 public class ShoppingItem {
 
+
+    @Id
+    @Column
     private String itemId;
+    @Column
     private String name;
+    @Column
     private String userRating;
+    @Column
     private String userRatingCount;
+    @Column
     private String description;
+    @Column
     private Float actualPrice;
+    @Column
     private Float discountedPrice;
 
     public String getItemId() {
@@ -67,5 +81,9 @@ public class ShoppingItem {
 
     public void setDiscountedPrice(Float discountedPrice) {
         this.discountedPrice = discountedPrice;
+    }
+
+    //no-arg constructor
+    public ShoppingItem() {
     }
 }
