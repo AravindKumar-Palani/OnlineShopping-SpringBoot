@@ -1,6 +1,7 @@
 package com.eshop.controller;
 
-import com.eshop.model.ShoppingItem;
+import com.eshop.model.*;
+import com.eshop.service.CategoryService;
 import com.eshop.service.ItemService;
 import com.eshop.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.eshop.model.ShoppingRequest;
-
 import java.util.List;
 
 @RestController
@@ -26,6 +25,9 @@ public class DataController {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    CategoryService categoryService;
 
     @GetMapping(path = "/hello")
     public String greetingMessage(@RequestParam(required = false, name = "userName") String name) {
@@ -75,4 +77,13 @@ public class DataController {
         return itemService.updateItem(item);
     }
 
+    @PostMapping("/insertCategory")
+    public CommonResponse updateItem(@RequestBody ShoppingCategory category) {
+        return categoryService.insertCategoryDetail(category);
+    }
+
+    @GetMapping("/getCategory")
+    public CategoryResponse updateItem(@RequestParam(name = "id") String categoryId) {
+        return categoryService.getSelectedCategory(categoryId);
+    }
 }

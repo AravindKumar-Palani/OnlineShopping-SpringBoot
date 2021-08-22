@@ -6,26 +6,16 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 @Transactional
-public class ItemRepo {
+public class ItemRepo extends CommonRepo{
 
-    @Autowired
-    private SessionFactory sessionFactory;
 
-    public List<ShoppingItem> itemList;
-
-    private Session getSession() {
-        Session session = sessionFactory.getCurrentSession();
-        if (session == null) {
-            session = sessionFactory.openSession();
-        }
-        return session;
-    }
 
     public boolean insertItem(ShoppingItem item) {
         if(null == itemList) {
@@ -58,36 +48,42 @@ public class ItemRepo {
         if(null == itemList) {
             return new ArrayList<ShoppingItem>();
         }
-        return itemList;
+
+        //fetching from db
+        Session session = getSession();
+        Query query = session.createQuery("from ShoppingItem");
+        List<ShoppingItem> myItemList = query.getResultList();
+
+        return myItemList;
     }
 
     public ShoppingItem getMatchingItem(String itemId) {
-        ShoppingItem searchItem = new ShoppingItem();
+        /*ShoppingItem searchItem = new ShoppingItem();
         for(ShoppingItem item: itemList) {
             if(item.getItemId().equalsIgnoreCase(itemId)) {
                 searchItem = item;
             }
-        }
-        return searchItem;
+        } */
+        Session session = getSession();
+        Query query = session.createQuery("from ShoppingItem where itemId ="+itemId);
+        List<ShoppingItem> myItemList = query.getResultList();
+        return myItemList.get(0);
     }
 
     public boolean removeItemById(String itemId) {
-        ShoppingItem searchItem = null;
-        for(ShoppingItem item:itemList) {
-            if(item.getItemId().equalsIgnoreCase(itemId)) {
-                searchItem = item;
-            }
-        }
-        if(null == searchItem) {
+        Session session = getSession();
+        Query query = session.createQuery("delete from ShoppingItem where itemId ="+itemId);
+        return (query.executeUpdate() == 1)? true:false ;
+        /*if(null == searchItem) {
             return false;
         } else {
               return  itemList.remove(searchItem);
-        }
+        }*/
 
     }
 
     public boolean updateItem(ShoppingItem keyItem) {
-        ShoppingItem searchItem = null;
+        /*ShoppingItem searchItem = null;
         for(ShoppingItem item: itemList ) {
             if(item.getItemId().equalsIgnoreCase(keyItem.getItemId())) {
                 searchItem = item;
@@ -98,6 +94,9 @@ public class ItemRepo {
         } else {
             itemList.remove(searchItem);
             return itemList.add(keyItem);
-        }
+        } */
+        Session session = getSession();
+        session.saveOrUpdate(keyItem);
+        return true ;
     }
 }

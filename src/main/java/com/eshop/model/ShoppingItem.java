@@ -6,8 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.transaction.Transactional;
 
 @Entity
+@Table(name="items_table")
 public class ShoppingItem {
 
 
