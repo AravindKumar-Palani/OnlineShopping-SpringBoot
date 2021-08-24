@@ -1,5 +1,8 @@
 package com.eshop.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -8,6 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "category_table")
+@Getter
+@Setter
+@ToString
 public class ShoppingCategory {
 
     @Id
@@ -22,38 +28,6 @@ public class ShoppingCategory {
     @JoinColumn(name="categoryId")
     @Fetch(FetchMode.JOIN)
     private List<ShoppingItem> itemList;
-
-    public String getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public List<ShoppingItem> getItemList() {
-        return itemList;
-    }
-
-    public void setItemList(List<ShoppingItem> itemList) {
-        this.itemList = itemList;
-    }
 
     //no-arg constructor
     public ShoppingCategory() {

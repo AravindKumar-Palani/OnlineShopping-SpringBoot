@@ -1,28 +1,19 @@
 package com.eshop.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 
 
 @Component
+@Getter
+@Setter
+@ToString
 public class ShoppingRequest {
 
     private String userName;
     private String password;
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

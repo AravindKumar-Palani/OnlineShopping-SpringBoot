@@ -4,6 +4,7 @@ import com.eshop.model.CategoryResponse;
 import com.eshop.model.CommonResponse;
 import com.eshop.model.ShoppingCategory;
 import com.eshop.model.ShoppingItem;
+import com.eshop.service.CategoryService;
 import com.eshop.util.CommonUtil;
 import com.eshop.util.ResourceConstants;
 import org.apache.poi.ss.usermodel.Row;
@@ -12,6 +13,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -29,14 +32,18 @@ public class CategoryRepo extends CommonRepo {
     @Autowired
     CommonUtil commonUtil;
 
+    Logger logger = LoggerFactory.getLogger(CategoryRepo.class);
+
     //To insert individual category
     public CommonResponse insertCategory(ShoppingCategory category) {
         CommonResponse response = new CommonResponse();
         try {
             Session session = getSession();
             session.saveOrUpdate(category);
+            logger.trace("Db update successful");
             setSuccess(response);
         } catch (Exception exception) {
+            logger.error("category insertion failed" + exception.getStackTrace());
             setFailure(response, exception);
         }
         return response;
@@ -50,8 +57,10 @@ public class CategoryRepo extends CommonRepo {
             ShoppingCategory category = session.find(ShoppingCategory.class, categoryId);
             Hibernate.initialize(category.getItemList());
             response.setCategory(category);
+            logger.trace("Db read successful");
             setSuccess(response);
         } catch (Exception exception) {
+            logger.error("category fetch failed" + exception.getStackTrace());
             setFailure(response, exception);
         }
         return response;
@@ -65,8 +74,10 @@ public class CategoryRepo extends CommonRepo {
             Query query = session.createQuery("from ShoppingCategory");
             List<ShoppingCategory> myCategoryList = query.getResultList();
             response.setCategoryList(myCategoryList);
+            logger.trace("Db read successful for reading all category");
             setSuccess(response);
         } catch (Exception exception) {
+            logger.error("All Category fetch failed" + exception.getStackTrace());
             setFailure(response, exception);
         }
         return response;
@@ -128,10 +139,13 @@ public class CategoryRepo extends CommonRepo {
             for (ShoppingCategory category : categoryList) {
                 session.saveOrUpdate(category);
             }
+            logger.trace("initial Db load successful");
             setSuccess(response);
         } catch (FileNotFoundException exception) {
+            logger.error("initial loading failed" + exception.getStackTrace());
             setFailure(response, exception);
         } catch (Exception exception) {
+            logger.error("initial loading failed" + exception.getStackTrace());
             exception.printStackTrace();
             setFailure(response, exception);
         }
