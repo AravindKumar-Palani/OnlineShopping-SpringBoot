@@ -13,12 +13,12 @@ public class ItemService {
     @Autowired
     ItemRepo itemRepo;
 
-    public boolean insertItemIndividually(ShoppingItem item) {
-        return itemRepo.insertItem(item);
+    public void insertItemIndividually(ShoppingItem item) {
+        itemRepo.insertItem(item);
     }
 
-    public boolean insertItems(List<ShoppingItem> items) {
-        return itemRepo.insertMultipleItems(items);
+    public void insertItems(List<ShoppingItem> items) {
+        itemRepo.insertMultipleItems(items);
     }
 
     public List<ShoppingItem> getAllItems() {
@@ -33,7 +33,7 @@ public class ItemService {
         return itemRepo.removeItemById(itemId);
     }
 
-    public boolean updateItem(ShoppingItem item) {
-        return itemRepo.updateItem(item);
+    public void updateItem(ShoppingItem item) {
+        itemRepo.updateItem(item);
     }
 }

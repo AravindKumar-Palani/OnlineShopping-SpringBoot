@@ -1,12 +1,6 @@
 package com.eshop.model;
 
-import org.springframework.stereotype.Component;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.transaction.Transactional;
+import javax.persistence.*;
 
 @Entity
 @Table(name="items_table")
@@ -28,6 +22,12 @@ public class ShoppingItem {
     private Float actualPrice;
     @Column
     private Float discountedPrice;
+    @Column
+    private Integer discountedPercentage;
+    @Transient
+    private String categoryId;
+    @Column
+    private String imageUrls;
 
     public String getItemId() {
         return itemId;
@@ -84,6 +84,32 @@ public class ShoppingItem {
     public void setDiscountedPrice(Float discountedPrice) {
         this.discountedPrice = discountedPrice;
     }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(String imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
+    public int getDiscountedPercentage() {
+        return discountedPercentage;
+    }
+
+    public void setDiscountedPercentage(Integer discountedPercentage) {
+        this.discountedPercentage = discountedPercentage;
+    }
+
+
 
     //no-arg constructor
     public ShoppingItem() {

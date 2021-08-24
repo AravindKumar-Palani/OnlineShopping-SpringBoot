@@ -20,6 +20,9 @@ import javax.sql.DataSource;
 @Configuration
 public class DBConfig {
 
+	/*
+	Properties read from configuration file
+	 */
 	@Value("${db.driver}")
 	private String driverClass;
 	@Value("${db.url}")
@@ -30,7 +33,16 @@ public class DBConfig {
 	private String password;
 	@Value("${hibernate.dialect}")
 	private String dialect;
+	@Value("${hibernate.hbm2ddl.auto}")
+	private String ddlConfig;
+	@Value("${hibernate.show_sql}")
+	private String showSql;
+	@Value("${hibernate.format_sql}")
+	private String formatSql;
 
+	/*
+	Setting DB datasource values
+	 */
 	@Bean
 	public DataSource getDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
@@ -38,6 +50,21 @@ public class DBConfig {
 		return dataSource;
 	}
 
+	/*
+	Setting up Hibernate configurations
+	 */
+	private Properties hibernateProperties() {
+		Properties properties = new Properties();
+		properties.put("hibernate.dialect", dialect);
+		properties.put("hibernate.hbm2ddl.auto",ddlConfig);
+		properties.put("hibernate.show_sql", showSql);
+		properties.put("hibernate.format_sql", formatSql);
+		return properties;
+	}
+
+	/*
+	Passing the created Datasource and hibernate properties to Create a Session factory
+	 */
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean factory = new LocalSessionFactoryBean();
@@ -47,15 +74,9 @@ public class DBConfig {
 		return factory;
 	}
 
-	private Properties hibernateProperties() {
-		Properties properties = new Properties();
-		properties.put("hibernate.dialect", dialect);
-		properties.put("hibernate.hbm2ddl.auto", "update");
-		properties.put("hibernate.show_sql", "true");
-		properties.put("hibernate.format_sql", "true");
-		return properties;
-	}
-
+	/*
+	Passing the session Factory to transaction manager
+	 */
 	@Bean
 	@Autowired
 	public HibernateTransactionManager transactionManager(SessionFactory factory) {
