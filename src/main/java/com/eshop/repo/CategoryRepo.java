@@ -4,7 +4,7 @@ import com.eshop.model.CategoryResponse;
 import com.eshop.model.CommonResponse;
 import com.eshop.model.ShoppingCategory;
 import com.eshop.model.ShoppingItem;
-import com.eshop.service.CategoryService;
+import com.eshop.util.CommonLoggers;
 import com.eshop.util.CommonUtil;
 import com.eshop.util.ResourceConstants;
 import org.apache.poi.ss.usermodel.Row;
@@ -32,6 +32,9 @@ public class CategoryRepo extends CommonRepo {
     @Autowired
     CommonUtil commonUtil;
 
+    @Autowired
+    CommonLoggers commonLogger;
+
     Logger logger = LoggerFactory.getLogger(CategoryRepo.class);
 
     //To insert individual category
@@ -43,7 +46,7 @@ public class CategoryRepo extends CommonRepo {
             logger.trace("Db update successful");
             setSuccess(response);
         } catch (Exception exception) {
-            logger.error("category insertion failed" + exception.getStackTrace());
+            commonLogger.addErrorLogs(logger, exception);
             setFailure(response, exception);
         }
         return response;

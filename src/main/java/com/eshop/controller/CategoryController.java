@@ -18,7 +18,7 @@ public class CategoryController extends CommonController{
         return categoryService.getAllCategory();
     }
 
-    @PostMapping("/insertCategory")
+    @RequestMapping(method = RequestMethod.POST, path = "/insertCategory")
     public CommonResponse insertCategory(@RequestBody ShoppingCategory category) {
         return categoryService.insertCategoryDetail(category);
     }

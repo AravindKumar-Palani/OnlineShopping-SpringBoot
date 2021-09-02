@@ -2,9 +2,11 @@ package com.eshop.app;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -41,7 +43,7 @@ public class DBConfig {
 	private String formatSql;
 
 	/*
-	Setting DB datasource values
+	Setting DB datasource values for Mysql DB
 	 */
 	@Bean
 	public DataSource getDataSource() {
@@ -49,6 +51,7 @@ public class DBConfig {
 		dataSource.setDriverClassName(driverClass);
 		return dataSource;
 	}
+
 
 	/*
 	Setting up Hibernate configurations
@@ -65,8 +68,20 @@ public class DBConfig {
 	/*
 	Passing the created Datasource and hibernate properties to Create a Session factory
 	 */
-	@Bean
+	@Bean(name="sql") @Primary
 	public LocalSessionFactoryBean sessionFactory() {
+		LocalSessionFactoryBean factory = new LocalSessionFactoryBean();
+		factory.setDataSource(getDataSource());
+		factory.setHibernateProperties(hibernateProperties());
+		factory.setPackagesToScan(new String[] { "com.eshop.model" });
+		return factory;
+	}
+
+	/*
+	Passing the created Datasource and hibernate properties to Create a Session factory
+	 */
+	@Bean(name="oracle")
+	public LocalSessionFactoryBean sessionFactoryOracle() {
 		LocalSessionFactoryBean factory = new LocalSessionFactoryBean();
 		factory.setDataSource(getDataSource());
 		factory.setHibernateProperties(hibernateProperties());
@@ -77,6 +92,7 @@ public class DBConfig {
 	/*
 	Passing the session Factory to transaction manager
 	 */
+
 	@Bean
 	@Autowired
 	public HibernateTransactionManager transactionManager(SessionFactory factory) {

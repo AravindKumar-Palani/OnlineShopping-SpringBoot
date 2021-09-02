@@ -34,7 +34,6 @@ public class ItemRepo extends CommonRepo {
         Session session = getSession();
         Query query = session.createQuery("from ShoppingItem");
         List<ShoppingItem> myItemList = query.getResultList();
-
         return myItemList;
     }
 
