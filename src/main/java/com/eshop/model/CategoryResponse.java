@@ -15,5 +15,6 @@ public class CategoryResponse extends CommonResponse{
 
     private ShoppingCategory category;
     private List<ShoppingCategory> categoryList;
+    private List<CarouselLoader> carouselList;
 
 }

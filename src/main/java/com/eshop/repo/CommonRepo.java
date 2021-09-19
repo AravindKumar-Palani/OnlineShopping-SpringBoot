@@ -37,4 +37,10 @@ public class CommonRepo {
         response.setStatusMessage("Transaction failed" + exception.getMessage());
         return response;
     }
+
+    public CommonResponse setFailure(CommonResponse response, String message) {
+        response.setStatusCode("400");
+        response.setStatusMessage("Transaction failed" + message);
+        return response;
+    }
 }

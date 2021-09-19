@@ -15,7 +15,7 @@
     <name>MyOnlineShopping</name>
     <description>Building up an online shopping portal with Spring Boot backend</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
     </properties>
     <dependencies>
         <dependency>

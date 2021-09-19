@@ -42,4 +42,5 @@ public class ItemController extends CommonController{
     public void updateItem(@RequestBody ShoppingItem item) {
         itemService.updateItem(item);
     }
+
 }

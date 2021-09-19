@@ -1,9 +1,6 @@
 package com.eshop.repo;
 
-import com.eshop.model.CategoryResponse;
-import com.eshop.model.CommonResponse;
-import com.eshop.model.ShoppingCategory;
-import com.eshop.model.ShoppingItem;
+import com.eshop.model.*;
 import com.eshop.util.CommonLoggers;
 import com.eshop.util.CommonUtil;
 import com.eshop.util.ResourceConstants;
@@ -94,13 +91,15 @@ public class CategoryRepo extends CommonRepo {
         try {
 
             Scanner categoryFileScanner = new Scanner(commonUtil.getFileFromResource(ResourceConstants.categoryListLocation));
+            Scanner carouselFileScanner = new Scanner(commonUtil.getFileFromResource(ResourceConstants.carouselListLocation));
             Workbook workbook = new XSSFWorkbook(commonUtil.getFileFromResource(ResourceConstants.itemListLocation));
 
 
             List<ShoppingCategory> categoryList = new ArrayList<>();
-            categoryFileScanner.next();
+            categoryFileScanner.nextLine();
             while (categoryFileScanner.hasNext()) {
-                String[] arr = categoryFileScanner.next().split(",");
+                String[] arr = categoryFileScanner.nextLine().split(",");
+                logger.trace(arr.toString());
                 ShoppingCategory myCategory = new ShoppingCategory();
                 myCategory.setCategoryId(arr[0]);
                 myCategory.setName(arr[1]);
@@ -108,6 +107,15 @@ public class CategoryRepo extends CommonRepo {
                 categoryList.add(myCategory);
             }
 
+            List<CarouselLoader> carouselList = new ArrayList<>();
+            carouselFileScanner.nextLine();
+            while (carouselFileScanner.hasNext()) {
+                String[] arr = carouselFileScanner.nextLine().split(",");
+                CarouselLoader carousel = new CarouselLoader();
+                carousel.setCarouselId(arr[0]);
+                carousel.setCarouselImageUrl(arr[1]);
+                carouselList.add(carousel);
+            }
 
 
             Sheet sheet = workbook.getSheetAt(0);
@@ -141,6 +149,9 @@ public class CategoryRepo extends CommonRepo {
             Session session = getSession();
             for (ShoppingCategory category : categoryList) {
                 session.saveOrUpdate(category);
+            }
+            for(CarouselLoader carousel: carouselList) {
+                session.saveOrUpdate(carousel);
             }
             logger.trace("initial Db load successful");
             setSuccess(response);

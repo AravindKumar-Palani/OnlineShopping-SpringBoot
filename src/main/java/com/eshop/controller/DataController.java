@@ -1,6 +1,7 @@
 package com.eshop.controller;
 
 import com.eshop.model.*;
+import com.eshop.service.DataLoaderService;
 import com.eshop.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -16,6 +17,8 @@ public class DataController extends CommonController{
     @Autowired
     LoginService loginService;
 
+    @Autowired
+    DataLoaderService dataService;
 
     @GetMapping(path = "/hello")
     public String greetingMessage(@RequestParam(required = false, name = "userName") String name) {
@@ -30,8 +33,13 @@ public class DataController extends CommonController{
     }
 
     @PostMapping(path = "/authenticate")
-    public String userAuthenticationViaPost(@RequestBody ShoppingRequest request) {
+    public CommonResponse userAuthenticationViaPost(@RequestBody ShoppingRequest request) {
         return loginService.authenticateUserViaPost(request);
+    }
+
+    @GetMapping(path = "/getInitialData")
+    public CategoryResponse homepageDataProvider() {
+        return dataService.getInitialData();
     }
 
 }

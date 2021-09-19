@@ -1,11 +1,17 @@
 package com.eshop.service;
 
+import com.eshop.model.CommonResponse;
 import com.eshop.model.ShoppingRequest;
+import com.eshop.repo.LoginRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
 public class LoginService {
+
+    @Autowired
+    LoginRepo loginRepo;
 
     public String authenticateUser(String name,String  password) {
 
@@ -22,20 +28,10 @@ public class LoginService {
         }
     }
 
-    public String authenticateUserViaPost(ShoppingRequest request) {
+    public CommonResponse authenticateUserViaPost(ShoppingRequest request) {
 
-        String name = request.getUserName();
-        String password = request.getPassword();
+        return loginRepo.authenticateUser(request);
 
-        if(StringUtils.hasText(name) & StringUtils.hasText(password)) {
-            if(name.equals("admin") & password.equals("pswd")) {
-                return "Login successful!";
-            } else {
-                return "Invalid credentials! please try again!";
-            }
-        } else {
-            return "Please login!";
-        }
     }
 }
 
