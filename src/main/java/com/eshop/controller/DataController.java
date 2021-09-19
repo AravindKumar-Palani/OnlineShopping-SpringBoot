@@ -22,7 +22,7 @@ public class DataController extends CommonController{
 
     @GetMapping(path = "/hello")
     public String greetingMessage(@RequestParam(required = false, name = "userName") String name) {
-        return "Hi! " + (StringUtils.hasText(name) ? StringUtils.capitalize(name) : "User");
+        return "Hi! " + (StringUtils.hasText(name) ? StringUtils.capitalize(name) : "User") + " Welcome to online shopping portal! :)";
     }
 
     @GetMapping(path = "/login")
