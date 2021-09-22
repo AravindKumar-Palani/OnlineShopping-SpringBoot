@@ -25,6 +25,10 @@ public class ItemService {
         return itemRepo.getAllItems();
     }
 
+    public List<ShoppingItem> getAllItems(String userName) {
+        return itemRepo.getAllItems();
+    }
+
     public ShoppingItem getMySearchItem(String itemId) {
         return itemRepo.getMatchingItem(itemId);
     }

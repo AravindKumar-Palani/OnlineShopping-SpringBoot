@@ -1,7 +1,10 @@
 package com.eshop.repo;
 
+import com.eshop.model.CartItem;
 import com.eshop.model.ShoppingItem;
+import com.eshop.util.CommonUtil;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -12,6 +15,11 @@ import java.util.List;
 @Transactional
 public class ItemRepo extends CommonRepo {
 
+    @Autowired
+    CartRepo cartRepo;
+
+    @Autowired
+    CommonUtil commonUtil;
 
     public void insertItem(ShoppingItem item) {
         //saving to DB
@@ -35,6 +43,17 @@ public class ItemRepo extends CommonRepo {
         Query query = session.createQuery("from ShoppingItem");
         List<ShoppingItem> myItemList = query.getResultList();
         return myItemList;
+    }
+
+    public List<ShoppingItem> getAllItems(String userName) {
+
+        //fetching from db
+        Session session = getSession();
+        Query query = session.createQuery("from ShoppingItem");
+        List<ShoppingItem> myItemList = query.getResultList();
+        List<CartItem> cartItems = cartRepo.fetchCartDetails(userName);
+
+        return commonUtil.getCuratedItemList(myItemList, cartItems);
     }
 
     public ShoppingItem getMatchingItem(String itemId) {

@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Getter
 @Setter
@@ -13,4 +15,8 @@ public class CommonResponse {
 
     private String statusCode;
     private String statusMessage;
+
+    private UserAddress defaultAddress;
+    private String userName;
+    private List<CartItem> cartItems;
 }

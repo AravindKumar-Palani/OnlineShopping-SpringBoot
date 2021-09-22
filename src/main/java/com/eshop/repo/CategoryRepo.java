@@ -120,17 +120,17 @@ public class CategoryRepo extends CommonRepo {
 
             Sheet sheet = workbook.getSheetAt(0);
 
-            for (int i=0;i< 50;i++) {
+            for (int i = 0; i < 50; i++) {
                 ShoppingItem item = new ShoppingItem();
                 Row row = sheet.getRow(i);
-                item.setCategoryId(Integer.toString((int)row.getCell(0).getNumericCellValue()));
-                item.setItemId(Integer.toString((int)row.getCell(1).getNumericCellValue()));
+                item.setCategoryId(Integer.toString((int) row.getCell(0).getNumericCellValue()));
+                item.setItemId(Integer.toString((int) row.getCell(1).getNumericCellValue()));
                 item.setName(row.getCell(2).getStringCellValue());
                 item.setActualPrice((float) row.getCell(3).getNumericCellValue());
                 item.setDiscountedPrice((float) row.getCell(4).getNumericCellValue());
                 item.setDiscountedPercentage((int) row.getCell(5).getNumericCellValue());
-                item.setUserRating(Integer.toString((int)row.getCell(6).getNumericCellValue()));
-                item.setUserRatingCount(Integer.toString((int)row.getCell(7).getNumericCellValue()));
+                item.setUserRating(Integer.toString((int) row.getCell(6).getNumericCellValue()));
+                item.setUserRatingCount(Integer.toString((int) row.getCell(7).getNumericCellValue()));
                 item.setDescription(row.getCell(8).getStringCellValue());
                 item.setImageUrls(row.getCell(8).getStringCellValue());
 
@@ -150,7 +150,7 @@ public class CategoryRepo extends CommonRepo {
             for (ShoppingCategory category : categoryList) {
                 session.saveOrUpdate(category);
             }
-            for(CarouselLoader carousel: carouselList) {
+            for (CarouselLoader carousel : carouselList) {
                 session.saveOrUpdate(carousel);
             }
             logger.trace("initial Db load successful");
@@ -166,4 +166,23 @@ public class CategoryRepo extends CommonRepo {
         return response;
     }
 
+    public CommonResponse insertCategory(ShoppingRequest request) {
+        CommonResponse response = new CommonResponse();
+        try {
+            Session session = getSession();
+            for (ShoppingCategory category : request.getCategoryList()) {
+                session.saveOrUpdate(category);
+            }
+            for (CarouselLoader carousel : request.getCarouselList()) {
+                session.saveOrUpdate(carousel);
+            }
+            logger.trace("initial Db load successful");
+            setSuccess(response);
+        }  catch (Exception exception) {
+            logger.error("initial loading failed" + exception.getStackTrace());
+            exception.printStackTrace();
+            setFailure(response, exception);
+        }
+        return response;
+    }
 }

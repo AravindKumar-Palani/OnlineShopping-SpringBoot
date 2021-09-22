@@ -3,6 +3,7 @@ package com.eshop.service;
 import com.eshop.model.CategoryResponse;
 import com.eshop.model.CommonResponse;
 import com.eshop.model.ShoppingCategory;
+import com.eshop.model.ShoppingRequest;
 import com.eshop.repo.CategoryRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +35,9 @@ public class CategoryService {
         return response;
     }
 
-    public CommonResponse loadInitialData() {
+    public CommonResponse loadInitialData(ShoppingRequest request) {
         logger.trace("loading initial category and item data");
-        CommonResponse response = categoryRepo.insertCategory();
+        CommonResponse response = categoryRepo.insertCategory(request);
         logger.info("Response received "+ response);
         return response;
     }

@@ -33,6 +33,11 @@ public class ItemController extends CommonController{
         return itemService.getAllItems();
     }
 
+    @GetMapping(path = "/getAllItems")
+    public List<ShoppingItem> getAllItemsByUser(@RequestParam String userName) {
+        return itemService.getAllItems();
+    }
+
     @GetMapping(path = "/removeItem")
     public boolean removeItemById(@RequestParam(name = "id") String itemId) {
         return itemService.removeItemViaId(itemId);

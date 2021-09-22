@@ -1,18 +1,19 @@
 package com.eshop.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="items_table")
+@Table(name = "items_table")
 @Getter
 @Setter
 @ToString
-public class ShoppingItem {
-
+@NoArgsConstructor
+public class OrderItems {
 
     @Id
     @Column
@@ -38,10 +39,9 @@ public class ShoppingItem {
     @Transient
     private boolean ExistInCart;
     @Transient
-    private String userName;
-    @Transient
     private int count;
-    //no-arg constructor
-    public ShoppingItem() {
-    }
+
+
+
+
 }

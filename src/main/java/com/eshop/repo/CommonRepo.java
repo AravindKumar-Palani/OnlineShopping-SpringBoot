@@ -2,6 +2,7 @@ package com.eshop.repo;
 
 import com.eshop.model.CommonResponse;
 import com.eshop.model.ShoppingItem;
+import com.eshop.util.CommonUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class CommonRepo {
     @Qualifier("sql")
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    CommonUtil commonUtil;
 
     public List<ShoppingItem> itemList;
 

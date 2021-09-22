@@ -33,13 +33,28 @@ public class DataController extends CommonController{
     }
 
     @PostMapping(path = "/authenticate")
-    public CommonResponse userAuthenticationViaPost(@RequestBody ShoppingRequest request) {
-        return loginService.authenticateUserViaPost(request);
+    public CommonResponse userAuthenticationViaPost(@RequestBody UserDetails userDetail) {
+        return loginService.authenticateUserViaPost(userDetail);
     }
 
-    @GetMapping(path = "/getInitialData")
+    @PostMapping(path = "/getInitialData")
     public CategoryResponse homepageDataProvider() {
         return dataService.getInitialData();
+    }
+
+    @PostMapping(path = "/Signup")
+    public CommonResponse userSignUp(@RequestBody UserDetails userDetail) {
+        return loginService.userSignUp(userDetail);
+    }
+
+    @PostMapping(path = "/addAddress")
+    public CommonResponse addAddress(@RequestBody UserAddress address) {
+        return loginService.addAddress(address);
+    }
+
+    @PostMapping(path = "/updateDefaultAddress")
+    public CommonResponse setAsDefaultAddress(@RequestBody UserAddress address) {
+        return loginService.setDefaultAddress(address);
     }
 
 }

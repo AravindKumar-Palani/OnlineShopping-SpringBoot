@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 
 
 @Component
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Component;
 @ToString
 public class ShoppingRequest {
 
-    private String userName;
-    private String password;
-
+    private List<ShoppingCategory> categoryList;
+    private List<CarouselLoader> carouselList;
 }

@@ -2,6 +2,8 @@ package com.eshop.service;
 
 import com.eshop.model.CommonResponse;
 import com.eshop.model.ShoppingRequest;
+import com.eshop.model.UserAddress;
+import com.eshop.model.UserDetails;
 import com.eshop.repo.LoginRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +30,22 @@ public class LoginService {
         }
     }
 
-    public CommonResponse authenticateUserViaPost(ShoppingRequest request) {
+    public CommonResponse authenticateUserViaPost(UserDetails user) {
 
-        return loginRepo.authenticateUser(request);
+        return loginRepo.authenticateUser(user);
 
+    }
+
+    public CommonResponse userSignUp(UserDetails user) {
+        return loginRepo.userSignUp(user);
+    }
+
+    public CommonResponse addAddress(UserAddress address) {
+        return loginRepo.addUserAddress(address);
+    }
+
+    public CommonResponse setDefaultAddress(UserAddress address) {
+        return loginRepo.setAsDefaultAddress(address);
     }
 }
 
